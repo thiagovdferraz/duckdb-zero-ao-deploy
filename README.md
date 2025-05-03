@@ -22,3 +22,15 @@ poetry add psycopg2-binary # trabalhar com postgres
 poetry add python-dotenv # variável de ambiente
 poetry add sqlalchemy
 ```
+
+## Dockerfile para deploy no render.com ou outro serviço
+
+```dockerfile
+FROM python:3.12
+RUN pip install poetry
+COPY . /src
+WORKDIR /src
+RUN poetry install --no-root --only main
+EXPOSE 8501
+ENTRYPOINT ["poetry","run", "streamlit", "run", "app.py", "--server.port=8501", "--server.address=0.0.0.0"]
+```
